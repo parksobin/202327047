@@ -27,11 +27,9 @@ int main()
     cout << "화면에 그릴 물체코드를 입력하세요 :" << endl;
     cin >> num;
 
-
-
     while (num != 64)
     {
-        while (true)
+        while (okay)
         {
             if (condition == 32)
             {
