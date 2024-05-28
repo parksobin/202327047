@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="class11.cpp" />
     <ClCompile Include="Lecture09-HW.cpp" />
   </ItemGroup>
   <ItemGroup>

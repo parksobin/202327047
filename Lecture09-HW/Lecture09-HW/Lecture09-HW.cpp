@@ -1,4 +1,6 @@
-﻿#pragma comment(lib, "Opengl32.lib")
+﻿
+/*
+#pragma comment(lib, "Opengl32.lib")
 
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -167,7 +169,7 @@ int render(float deltaTime)
     float moon_orbit_radius = 0.15f;
     // 별의 크기 설정
     float star_radius = 0.05f;
-    // 달?별? 그리기
+    // 별 그리기
     glBegin(GL_TRIANGLE_FAN);
     glColor3f(1.0f, 0.94f, 0.0f);
     setVertexMoonRotation(0.0f, 0.0f, StarOrbitAngle, StarRotationAngle, earth_center_x, earth_center_y, moon_orbit_radius);
@@ -180,7 +182,7 @@ int render(float deltaTime)
     setVertexMoonRotation(star_radius, 0.0f, StarOrbitAngle, StarRotationAngle, earth_center_x, earth_center_y, moon_orbit_radius);
     glEnd();
 
-    //// 달?별? 테두리 그리기
+    //// 별 테두리 그리기
     glLineWidth(2.0f);
     glBegin(GL_LINES);
     glColor3f(0.0f, 0.0f, 0.0f);
@@ -202,10 +204,10 @@ int render(float deltaTime)
     EarthRotateAngle += EarthRotationSpeed * deltaTime;
     StarRotationAngle += StarRotateOrbitSpeed * deltaTime;
     StarOrbitAngle -= StarRotateOrbitSpeed * deltaTime;
-
     return 0;
 }
-
+*/
+/*
 int main(void)
 {
     if (!glfwInit())
@@ -245,3 +247,4 @@ int main(void)
     glfwTerminate();
     return 0;
 }
+*/
