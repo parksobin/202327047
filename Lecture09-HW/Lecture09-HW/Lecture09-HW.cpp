@@ -1,4 +1,4 @@
-ï»¿
+
 /*
 #pragma comment(lib, "Opengl32.lib")
 
@@ -32,41 +32,41 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 }
 
 int setVertexRotation(float x, float y, float angle_degree)
-{ // íƒœì–‘ ê·¸ë¦¬ê¸° ê¸°ì´ˆ í•¨ìˆ˜
+{ // ÅÂ¾ç ±×¸®±â ±âÃÊ ÇÔ¼ö
     float angle = angle_degree / 180 * M_PI;
     glVertex2f(x * cos(angle) - (y * sin(angle)), x * sin(angle) + (y * cos(angle)));
     return 0;
 }
 
 int setVertexEarthRotation(float x, float y, float orbit_angle_degree, float rotate_angle_degree, float sun_center_x, float sun_center_y, float orbit_radius)
-{ //  ì§€êµ¬ ê·¸ë¦¬ê¸° í•¨ìˆ˜
-    // ê³µì „ ê°ë„ ê³„ì‚°
+{ //  Áö±¸ ±×¸®±â ÇÔ¼ö
+    // °øÀü °¢µµ °è»ê
     float orbit_angle = orbit_angle_degree * M_PI / 180;
-    // ìì „ ê°ë„ ê³„ì‚°
+    // ÀÚÀü °¢µµ °è»ê
     float rotate_angle = rotate_angle_degree * M_PI / 180;
-    // ê³µì „ ì¤‘ì‹¬ ì¢Œí‘œ ê³„ì‚°
+    // °øÀü Áß½É ÁÂÇ¥ °è»ê
     float orbit_x = sun_center_x + orbit_radius * cos(orbit_angle);
     float orbit_y = sun_center_y + orbit_radius * sin(orbit_angle);
-    // íšŒì „ëœ ì¢Œí‘œ ì„¤ì •
+    // È¸ÀüµÈ ÁÂÇ¥ ¼³Á¤
     glVertex2f(orbit_x + x * cos(rotate_angle) - (y * sin(rotate_angle)), orbit_y + x * sin(rotate_angle) + (y * cos(rotate_angle)));
     return 0;
 }
 
 int setVertexMoonRotation(float x, float y, float orbit_angle_degree, float rotate_angle_degree, float earth_center_x, float earth_center_y, float orbit_radius)
-{ // ë‹¬? ë³„? ê·¸ë¦¬ê¸° í•¨ìˆ˜
-    // ê³µì „ ê°ë„ ê³„ì‚°
+{ // ´Ş? º°? ±×¸®±â ÇÔ¼ö
+    // °øÀü °¢µµ °è»ê
     float orbit_angle = orbit_angle_degree * M_PI / 180;
-    // ìì „ ê°ë„ ê³„ì‚°
+    // ÀÚÀü °¢µµ °è»ê
     float rotate_angle = rotate_angle_degree * M_PI / 180;
-    // ê³µì „ ì¤‘ì‹¬ ì¢Œí‘œ ê³„ì‚°
+    // °øÀü Áß½É ÁÂÇ¥ °è»ê
     float orbit_x = earth_center_x + orbit_radius * cos(orbit_angle);
     float orbit_y = earth_center_y + orbit_radius * sin(orbit_angle);
-    // íšŒì „ëœ ì¢Œí‘œ ì„¤ì •
+    // È¸ÀüµÈ ÁÂÇ¥ ¼³Á¤
     glVertex2f(orbit_x + x * cos(rotate_angle) - (y * sin(rotate_angle)), orbit_y + x * sin(rotate_angle) + (y * cos(rotate_angle)));
     return 0;
 }
 
-//ê°ì²´ë³„ ì‹œì‘ ê°ë„ ì„¤ì •
+//°´Ã¼º° ½ÃÀÛ °¢µµ ¼³Á¤
 float sunAngle = 0;
 float sun_pattern_angle1 = 140;
 float sun_pattern_angle2 = 240;
@@ -75,15 +75,15 @@ float EarthOrbitAngle = 0;
 float StarRotationAngle = 0;
 float StarOrbitAngle = 0;
 
-float sunRotationSpeed = 360.0f / 30.0f; // íƒœì–‘ì´ í•œ ë°”í€´ ìì „ ì‹œ, 30ì´ˆ
-float EarthRotationSpeed = 360.0f / 10.0f; // ì§€êµ¬ê°€ í•œ ë°”í€´ ìì „ ì‹œ, 10ì´ˆ
-float EarthOrbitSpeed = 360.0f / 60.0f; // ì§€êµ¬ê°€ í•œ ë°”í€´ ê³µì „ ì‹œ, 60ì´ˆ
-float StarRotateOrbitSpeed = 360.0f / 3.0f; // ë‹¬? ë³„?ì´ í•œ ë°”í€´ ê³µì „ ì‹œ, 3ì´ˆ
+float sunRotationSpeed = 360.0f / 30.0f; // ÅÂ¾çÀÌ ÇÑ ¹ÙÄû ÀÚÀü ½Ã, 30ÃÊ
+float EarthRotationSpeed = 360.0f / 10.0f; // Áö±¸°¡ ÇÑ ¹ÙÄû ÀÚÀü ½Ã, 10ÃÊ
+float EarthOrbitSpeed = 360.0f / 60.0f; // Áö±¸°¡ ÇÑ ¹ÙÄû °øÀü ½Ã, 60ÃÊ
+float StarRotateOrbitSpeed = 360.0f / 3.0f; // ´Ş? º°?ÀÌ ÇÑ ¹ÙÄû °øÀü ½Ã, 3ÃÊ
 double previousTime = 0.0;
 
 int render(float deltaTime)
 {
-    // íƒœì–‘ ê·¸ë¦¬ê¸°
+    // ÅÂ¾ç ±×¸®±â
     glBegin(GL_POLYGON);
     glColor3f(1.0f, 0.85f, 0.4f);
     double radius = 0.3;
@@ -95,7 +95,7 @@ int render(float deltaTime)
     }
     glEnd();
 
-    // íƒœì–‘ í…Œë‘ë¦¬ ê·¸ë¦¬ê¸°
+    // ÅÂ¾ç Å×µÎ¸® ±×¸®±â
     glLineWidth(3.0f);
     glBegin(GL_LINE_LOOP);
     glColor3f(0.77f, 0.35f, 0.06f);
@@ -114,7 +114,7 @@ int render(float deltaTime)
     }
     glEnd();
 
-    // íƒœì–‘ í° ë¬´ëŠ¬ ê·¸ë¦¬ê¸°
+    // ÅÂ¾ç Å« ¹«´Ì ±×¸®±â
     glBegin(GL_POLYGON);
     glColor3f(1.0f, 0.9f, 0.6f);
     float pattern1_radius = 0.1;
@@ -126,7 +126,7 @@ int render(float deltaTime)
     }
     glEnd();
 
-    // íƒœì–‘ ì‘ì€ ë¬´ëŠ¬ ê·¸ë¦¬ê¸°
+    // ÅÂ¾ç ÀÛÀº ¹«´Ì ±×¸®±â
     glBegin(GL_POLYGON);
     glColor3f(1.0f, 0.75f, 0.0f);
     float pattern2_radius = 0.05;
@@ -138,12 +138,12 @@ int render(float deltaTime)
     }
     glEnd();
 
-    // íŒŒë€ìƒ‰ ì‚¬ê°í˜• ê·¸ë¦¬ê¸°
+    // ÆÄ¶õ»ö »ç°¢Çü ±×¸®±â
     float sun_center_x = 0.0f;
     float sun_center_y = 0.0f;
-    // ì§€êµ¬ ê³µì „ ë°˜ì§€ë¦„ ì„¤ì •
+    // Áö±¸ °øÀü ¹İÁö¸§ ¼³Á¤
     float orbit_radius = 0.6f;
-    // ì§€êµ¬ ê·¸ë¦¬ê¸°
+    // Áö±¸ ±×¸®±â
     glBegin(GL_POLYGON);
     glColor3f(0.35f, 0.6f, 0.83f);
     setVertexEarthRotation(-0.05f, -0.05f, EarthOrbitAngle, EarthRotateAngle, sun_center_x, sun_center_y, orbit_radius);
@@ -152,7 +152,7 @@ int render(float deltaTime)
     setVertexEarthRotation(0.05f, -0.05f, EarthOrbitAngle, EarthRotateAngle, sun_center_x, sun_center_y, orbit_radius);
     glEnd();
 
-    //ì§€êµ¬ í…Œë‘ë¦¬ ê·¸ë¦¬ê¸°
+    //Áö±¸ Å×µÎ¸® ±×¸®±â
     glLineWidth(2.0f);
     glBegin(GL_LINE_LOOP);
     glColor3f(0.0f, 0.0f, 0.0f);
@@ -162,14 +162,14 @@ int render(float deltaTime)
     setVertexEarthRotation(0.05f, -0.05f, EarthOrbitAngle, EarthRotateAngle, sun_center_x, sun_center_y, orbit_radius);
     glEnd();
 
-    // ì§€êµ¬ì˜ ì¤‘ì‹¬ ì¢Œí‘œë¥¼ ë¶ˆëŸ¬ì™€ì„œ  
+    // Áö±¸ÀÇ Áß½É ÁÂÇ¥¸¦ ºÒ·¯¿Í¼­
     float earth_center_x = sun_center_x + orbit_radius * cos(EarthOrbitAngle * M_PI / 180);
     float earth_center_y = sun_center_y + orbit_radius * sin(EarthOrbitAngle * M_PI / 180);
-    // ë³„ì˜ ê³µì „ ë°˜ì§€ë¦„
+    // º°ÀÇ °øÀü ¹İÁö¸§
     float moon_orbit_radius = 0.15f;
-    // ë³„ì˜ í¬ê¸° ì„¤ì •
+    // º°ÀÇ Å©±â ¼³Á¤
     float star_radius = 0.05f;
-    // ë³„ ê·¸ë¦¬ê¸°
+    // º° ±×¸®±â
     glBegin(GL_TRIANGLE_FAN);
     glColor3f(1.0f, 0.94f, 0.0f);
     setVertexMoonRotation(0.0f, 0.0f, StarOrbitAngle, StarRotationAngle, earth_center_x, earth_center_y, moon_orbit_radius);
@@ -182,7 +182,7 @@ int render(float deltaTime)
     setVertexMoonRotation(star_radius, 0.0f, StarOrbitAngle, StarRotationAngle, earth_center_x, earth_center_y, moon_orbit_radius);
     glEnd();
 
-    //// ë³„ í…Œë‘ë¦¬ ê·¸ë¦¬ê¸°
+    //// º° Å×µÎ¸® ±×¸®±â
     glLineWidth(2.0f);
     glBegin(GL_LINES);
     glColor3f(0.0f, 0.0f, 0.0f);
@@ -196,7 +196,7 @@ int render(float deltaTime)
     }
     glEnd();
 
-    //ê° ê°ì²´ì˜ ì‹œì‘ ê°ë„ì— íšŒì „ ì†ë„ë¥¼ ë”í•˜ì—¬ íšŒì „ ì´ë²¤íŠ¸ ë¶€ì—¬
+    //°¢ °´Ã¼ÀÇ ½ÃÀÛ °¢µµ¿¡ È¸Àü ¼Óµµ¸¦ ´õÇÏ¿© È¸Àü ÀÌº¥Æ® ºÎ¿©
     sunAngle -= sunRotationSpeed * deltaTime;
     sun_pattern_angle1 -= sunRotationSpeed * deltaTime;
     sun_pattern_angle2 -= sunRotationSpeed * deltaTime;
@@ -226,14 +226,14 @@ int main(void)
     glfwSetErrorCallback(errorCallback);
     glfwSetKeyCallback(window, keyCallback);
 
-    previousTime = glfwGetTime(); //'ì´ì „ ì‹œê°„'ì´ë¼ëŠ” ë³€ìˆ˜ì— í˜„ì¬ ì‹œê°„ì„ ë¶ˆëŸ¬ì˜´
+    previousTime = glfwGetTime(); //'ÀÌÀü ½Ã°£'ÀÌ¶ó´Â º¯¼ö¿¡ ÇöÀç ½Ã°£À» ºÒ·¯¿È
 
     while (!glfwWindowShouldClose(window))
     {
-        //ê¸°ê¸° í”„ë ˆì„ë³„ íšŒì „ ì†ë„ê°€ ë°”ë€ŒëŠ” í˜„ìƒì„ ë§‰ê¸° ìœ„í•´ ì‚¬ìš©
-        double currentTime = glfwGetTime(); // 'í˜„ì¬ ì‹œê°„'ì´ë¼ëŠ” ë³€ìˆ˜ì—ë„ í˜„ì¬ ì‹œê°„ì„ ë¶ˆëŸ¬ì˜´
-        float deltaTime = static_cast<float>(currentTime - previousTime); //í˜„ì¬ ì‹œê°„ê³¼ ì´ì „ ì‹œê°„ì˜ ì°¨ì´ë¥¼ deltaTime ë³€ìˆ˜ë¡œ ê³„ì‚°
-        previousTime = currentTime; // ì´ì „ ì‹œê°„ì„ í˜„ì¬ ì‹œê°„ìœ¼ë¡œ ë°”ê¿”ì„œ ì¬ì‚¬ìš© ê°€ëŠ¥í•˜ê²Œ ì„¤ì •
+        //±â±â ÇÁ·¹ÀÓº° È¸Àü ¼Óµµ°¡ ¹Ù²î´Â Çö»óÀ» ¸·±â À§ÇØ »ç¿ë
+        double currentTime = glfwGetTime(); // 'ÇöÀç ½Ã°£'ÀÌ¶ó´Â º¯¼ö¿¡µµ ÇöÀç ½Ã°£À» ºÒ·¯¿È
+        float deltaTime = static_cast<float>(currentTime - previousTime); //ÇöÀç ½Ã°£°ú ÀÌÀü ½Ã°£ÀÇ Â÷ÀÌ¸¦ deltaTime º¯¼ö·Î °è»ê
+        previousTime = currentTime; // ÀÌÀü ½Ã°£À» ÇöÀç ½Ã°£À¸·Î ¹Ù²ã¼­ Àç»ç¿ë °¡´ÉÇÏ°Ô ¼³Á¤
 
         glfwPollEvents();
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
