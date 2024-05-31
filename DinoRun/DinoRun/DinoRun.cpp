@@ -4,15 +4,14 @@
 #include <iostream>
 #include <cmath>
 #include <chrono>
-#include <thread> //sleep 이라는 함수 (잠깐 아무것도 안 하는 거)
+#include <thread> 
 
 using namespace std;
 float m = 0.0f;
 float j = 0.0f;
-
-int speed2 = 3;
-float g = 9.8f;
-float a;
+int a; 
+float speed = 0.0f;
+float gravity = 0.0f;
 
 void errorCallback(int error, const char* description)
 {
@@ -21,10 +20,11 @@ void errorCallback(int error, const char* description)
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) {
-		//speed += 0.1f;
-		
-		a = 1;
+	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) 
+	{
+		speed = 0.01f; gravity = 0.000981f;  a = 1;
+		//  100        9.8
+		// .0100     .00098
 	}
 }
 
@@ -53,13 +53,6 @@ void DrawBox(float x, float y, float m, float jumo)
 	//x = 0.1 y=-0.1
 	//x = 0.1 y=0.1
 	//x = -0.1 y=0.1
-
-	// +0.1
-	//x = 0.0 y= -0.1
-	//x = 0.2 y=-0.1
-	//x = 0.2 y=0.1
-	//x = 0.0 y=0.1
-
 	glBegin(GL_LINES);
 	glColor3f(0.0f, 0.0f, 0.0f);
 	glVertex2f(-x+ m, -y+ jumo);
@@ -73,13 +66,11 @@ void DrawBox(float x, float y, float m, float jumo)
 
 	glVertex2f(-x+ m, -y+ jumo);
 	glVertex2f(-x+ m, y+ jumo);
-
 	glEnd();
 }
 int main(void)
 {
-float power = 0.03f;
-float speed = 0.04f;
+
 	if (!glfwInit())
 		return -1;
 
@@ -104,24 +95,22 @@ float speed = 0.04f;
 		DrawGround();
 		this_thread::sleep_for(chrono::milliseconds(10));
 
-		DrawBox(0.05f,0.05f,m, j);
-		//j += 0.05f;
 
-		if(a==1) //점프신호
+		DrawBox(0.05f,0.05f,m, j);
+		switch (a)
 		{
-			j += 0.05f+ speed;
-			if(j >= 0.4f)
-			{
-				a = 2;
-			}
-		}
-		if (a==2) //떨어지는 신호
-		{
-			j -= 0.05f- speed;
-			if (j <= 0.01)
-			{
-				a = 0;
-			}
+			case 1:
+				j += speed;
+				if (j>= 0.3f) { a = 2; }
+				break;
+			case 2:
+				speed += gravity;
+				j -= speed;
+				if (j<= 0) { a = 0; }
+				break;
+			default:
+				j = 0; speed = 0; gravity = 0;
+				break;
 		}
 		glfwSwapBuffers(window);
 	}
