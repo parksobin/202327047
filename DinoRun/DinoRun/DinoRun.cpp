@@ -22,7 +22,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 {
 	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) 
 	{
-		speed = 0.01f; gravity = 0.000981f;  a = 1;
+		speed = 0.01f; gravity = 0.00098f;  a = 1;
 		//  100        9.8
 		// .0100     .00098
 	}
@@ -101,7 +101,7 @@ int main(void)
 		{
 			case 1:
 				j += speed;
-				if (j>= 0.3f) { a = 2; }
+				if (j>= 0.9f) { a = 2; }
 				break;
 			case 2:
 				speed += gravity;
