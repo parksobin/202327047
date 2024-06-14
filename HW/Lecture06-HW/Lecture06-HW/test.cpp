@@ -1,4 +1,5 @@
-﻿﻿#pragma comment(lib, "Opengl32.lib")
+﻿/*
+﻿#pragma comment(lib, "Opengl32.lib")
 #include <GLFW/glfw3.h>
 #include <iostream>
 
@@ -85,7 +86,6 @@ int main(void)
 		return -1;
 	}
 
-	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
 	glfwSetErrorCallback(errorCallback);
 	glfwSetKeyCallback(window, keyCallback);
@@ -106,3 +106,4 @@ int main(void)
 	return 0;
 
 }
+*/

@@ -7,11 +7,14 @@
 #include <thread> 
 
 using namespace std;
-float m = 0.0f;
-float j = 0.0f;
+float m = 0;
+float j = 0;
+float speed = 0;
+float gravity = 0;
+
 int a; 
-float speed = 0.0f;
-float gravity = 0.0f;
+bool jumpsign = true;
+float plusx = 0.4f;
 
 void errorCallback(int error, const char* description)
 {
@@ -20,11 +23,12 @@ void errorCallback(int error, const char* description)
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) 
+	if (jumpsign)
 	{
-		speed = 0.03f; gravity = 0.00098f;  a = 1;
-		//  100        9.8
-		// .0100     .00098
+		if (key == GLFW_KEY_SPACE && action == GLFW_PRESS) 
+		{
+			 speed = 0.03f; gravity = 0.000098f;  a = 1;
+		}
 	}
 }
 
@@ -32,42 +36,31 @@ void DrawGround()
 {
 	glBegin(GL_LINES);
 	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex2f(-0.9, -0.8);
-	glVertex2f(0.9, -0.8);
 
-	glVertex2f(0.9, -0.8);
-	glVertex2f(0.9, -0.05);
-
-	glVertex2f(0.9, -0.05);
-	glVertex2f(-0.9, -0.05);
-
-	glVertex2f(-0.9, -0.8);
-	glVertex2f(-0.9, -0.05);
+	glVertex2f(1, -0.05);
+	glVertex2f(-1, -0.05);
 
 	glEnd();
 }
-void DrawBox(float x, float y, float m, float jumo)
+
+void DrawBox(float x, float y, float jumo)
 {
-	//x = 0.1 y=0.1
-	//x = -0.1 y= -0.1
-	//x = 0.1 y=-0.1
-	//x = 0.1 y=0.1
-	//x = -0.1 y=0.1
-	glBegin(GL_LINES);
+	glBegin(GL_POLYGON);
 	glColor3f(0.0f, 0.0f, 0.0f);
-	glVertex2f(-x+ m, -y+ jumo);
-	glVertex2f(x+m, -y+ jumo);
+	glVertex2f(-x- plusx, -y+ jumo);
+	glVertex2f(x - plusx, -y+ jumo);
 
-	glVertex2f(x+ m, -y+ jumo);
-	glVertex2f(x+ m, y+ jumo);
+	glVertex2f(x - plusx, -y+ jumo);
+	glVertex2f(x - plusx, y+ jumo);
 
-	glVertex2f(x+ m, y+ jumo);
-	glVertex2f(-x+ m, y+ jumo);
+	glVertex2f(x - plusx, y+ jumo);
+	glVertex2f(-x - plusx, y+ jumo);
 
-	glVertex2f(-x+ m, -y+ jumo);
-	glVertex2f(-x+ m, y+ jumo);
+	glVertex2f(-x - plusx, -y+ jumo);
+	glVertex2f(-x - plusx, y+ jumo);
 	glEnd();
 }
+
 int main(void)
 {
 
@@ -86,32 +79,40 @@ int main(void)
 	glfwMakeContextCurrent(window);
 	glfwSetErrorCallback(errorCallback);
 	glfwSetKeyCallback(window, keyCallback);
+	chrono::steady_clock::time_point prev_end = chrono::steady_clock::now();
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	int delay_time_ms = 0;
 
 	while (!glfwWindowShouldClose(window))
 	{
+		this_thread::sleep_for(chrono::milliseconds(10 + delay_time_ms));
+		prev_end = end;
+		end = chrono::steady_clock::now();
+		chrono::steady_clock::duration diff = end - prev_end;
+		delay_time_ms = 10 - chrono::duration_cast<chrono::milliseconds>(diff).count();
+
 		glfwPollEvents();
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		DrawGround();
-		this_thread::sleep_for(chrono::milliseconds(10));
-
-
-		DrawBox(0.05f,0.05f,m, j);
 		switch (a)
 		{
+			case 0:
+				j = 0; speed = 0; gravity = 0; 
+				jumpsign = true;
+				break;
 			case 1:
+				jumpsign = false;
 				j += speed;
-				if (j>= 0.9f) { a = 2; }
+				if (j >= 0.5f) { a = 2;}
 				break;
 			case 2:
 				speed += gravity;
 				j -= speed;
 				if (j<= 0) { a = 0; }
 				break;
-			default:
-				j = 0; speed = 0; gravity = 0;
-				break;
 		}
+		DrawBox(0.05f,0.05f, j);
 		glfwSwapBuffers(window);
 	}
 

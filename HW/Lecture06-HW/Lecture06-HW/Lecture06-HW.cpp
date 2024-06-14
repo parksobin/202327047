@@ -1,6 +1,4 @@
-﻿3
-
-#include <GLFW/glfw3.h>
+﻿#include <GLFW/glfw3.h>
 #include <iostream>
 #include "Star.hpp"
 #include "MSList.h"
