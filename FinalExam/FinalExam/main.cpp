@@ -11,6 +11,16 @@ const int HEIGHT = 600;
 // 장애물 수
 const int MAX_OBSTACLES = 2;
 
+// 중력 가속도
+const float GRAVITY = -9.8f; // 중력 가속도
+
+// 플레이어 점프 속도
+const float JUMP_VELOCITY = 5.0f;
+
+// 플레이어 상태
+bool isJumping = false;
+float playerVelocityY = 0.0f;
+
 // 미터 좌표를 픽셀 좌표로 변환하는 함수
 float meterToPixel(float meter) {
     return meter * 10.0f; // 1 cm = 10 pixels
@@ -26,6 +36,10 @@ void errorCallback(int error, const char* description) {
 }
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+    if (key == GLFW_KEY_SPACE && action == GLFW_PRESS && !isJumping) {
+        isJumping = true;
+        playerVelocityY = JUMP_VELOCITY; // 점프 시작 시 속도 설정
+    }
 }
 
 void reshape(GLFWwindow* window, int width, int height) {
@@ -44,20 +58,18 @@ void reshape(GLFWwindow* window, int width, int height) {
     glMatrixMode(GL_MODELVIEW);
 }
 
-int Physics() {
-    return 0;
-}
+void ApplyPhysics(Player& player, Floor& ground, float deltaTime) {
+    if (isJumping) {
+        playerVelocityY += GRAVITY * deltaTime; // 중력 가속도 적용
+        player.y += playerVelocityY * deltaTime; // y 위치 업데이트
 
-int Initialize() {
-    return 0;
-}
-
-int Update() {
-    return 0;
-}
-
-int Render() {
-    return 0;
+        // 지면에 닿으면 점프 멈춤
+        if (player.y - player.height / 2 <= ground.y + ground.height / 2) {
+            player.y = ground.y + ground.height / 2 + player.height / 2;
+            isJumping = false;
+            playerVelocityY = 0.0f;
+        }
+    }
 }
 
 void UpdateObstacles(EnemyBlock obstacles[], int obstacleCount, float deltaTime, float ground_y_opengl) {
@@ -99,7 +111,7 @@ int main(void) {
     glfwSetErrorCallback(errorCallback);
     glfwSetKeyCallback(window, keyCallback);
 
-    Initialize();
+
 
     // 초기 위치 설정
     float x_meter = 5.0f; // 지면에서 50cm 오른쪽으로 이동
@@ -153,8 +165,9 @@ int main(void) {
         glClear(GL_COLOR_BUFFER_BIT); // 프레임 버퍼를 지우는 함수 호출
 
         glfwPollEvents();
-        Physics();
-        Update();
+
+        // 물리 적용
+        ApplyPhysics(player, ground, deltaTime);
 
         // 장애물 업데이트
         UpdateObstacles(obstacles, obstacleCount, deltaTime, ground_y_opengl);
@@ -166,10 +179,11 @@ int main(void) {
             obstacles[i].Draw();
         }
 
-        Render();
+        // 버퍼를 교체하여 화면에 그립니다.
         glfwSwapBuffers(window);
     }
 
     glfwTerminate();
     return 0;
 }
+
